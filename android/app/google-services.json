@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "94522280041",
+    "project_id": "gothic-oven-390617",
+    "storage_bucket": "gothic-oven-390617.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:94522280041:android:61ebbe33e7f408cff73af8",
+        "android_client_info": {
+          "package_name": "com.testapp.mynotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "94522280041-v6064qju8nr2s1ak1ffjfel4lvjs750q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBH2CzlaZ1sSRKTjHEG_6iGUZ1hpq4AZrM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "94522280041-v6064qju8nr2s1ak1ffjfel4lvjs750q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
