@@ -35,6 +35,7 @@ class _NotesViewState extends State<NotesView> {
       appBar: AppBar(
         title: const Text('Main UI'),
         actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
           PopupMenuButton(onSelected: (value) async {
             switch (value) {
               case MenuActions.logout:
