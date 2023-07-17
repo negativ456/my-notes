@@ -12,11 +12,16 @@ class NotesService {
   List<DatabaseNote> _notes = [];
 
   static final NotesService _shared = NotesService._sharedInstance();
-  NotesService._sharedInstance();
-  factory NotesService() => _shared;
 
-  final _notesStreamController =
-      StreamController<List<DatabaseNote>>.broadcast();
+  NotesService._sharedInstance() {
+    _notesStreamController = StreamController<List<DatabaseNote>>.broadcast(
+      onListen: () {
+        _notesStreamController.sink.add(_notes);
+      },
+    );
+  }
+  factory NotesService() => _shared;
+  late final StreamController<List<DatabaseNote>> _notesStreamController;
 
   Stream<List<DatabaseNote>> get allNotes => _notesStreamController.stream;
 
@@ -56,8 +61,8 @@ class NotesService {
 
     await getNote(id: note.id);
 
-    final updatesCount = await db
-        .update(noteTable, {'textColumn': text, 'isSyncedWithCloud': 0});
+    final updatesCount =
+        await db.update(noteTable, {'text': text, 'is_synced_with_cloud': 0});
 
     if (updatesCount == 0) {
       throw CouldNotUpdateNote();
@@ -109,7 +114,7 @@ class NotesService {
     const text = '';
 
     final noteId = await db.insert(noteTable,
-        {'userIdColumn': owner.id, 'textColumn': text, 'isSyncedWithCloud': 1});
+        {'user_id': owner.id, 'text': text, 'is_synced_with_cloud': 1});
 
     final note = DatabaseNote(
         id: noteId, userId: owner.id, text: text, isSyncedWithCloud: true);
@@ -171,7 +176,7 @@ class NotesService {
     }
 
     final userId = await db.insert(userTable, {
-      'emailColumn': email.toLowerCase(),
+      'email': email.toLowerCase(),
     });
 
     return DatabaseUser(id: userId, email: email);
@@ -223,6 +228,7 @@ class NotesService {
       _db = db;
 
       await db.execute(createUserTable);
+      await db.execute(createNoteTable);
       await _cacheNotes();
     } on MissingPlatformDirectoryException {
       throw UnableToGetDocumentsDirectory();
@@ -280,7 +286,7 @@ class DatabaseNote {
   int get hashCode => id.hashCode;
 }
 
-const dbName = 'noted.db';
+const dbName = 'notes.db';
 const noteTable = 'note';
 const userTable = 'user';
 const createUserTable = '''
